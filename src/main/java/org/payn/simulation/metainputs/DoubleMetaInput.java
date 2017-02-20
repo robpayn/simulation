@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.payn.simulation.MetaInput;
 
-public class DoubleMetaInput extends MetaInput {
+public class DoubleMetaInput implements MetaInput {
     
     private ArrayList<Double> vector;
     
@@ -17,5 +17,11 @@ public class DoubleMetaInput extends MetaInput {
     {
         return vector;
     }
+
+   @Override
+   public boolean isActive() 
+   {
+      return true;
+   }
 
 }

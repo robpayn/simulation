@@ -1,34 +1,17 @@
 package org.payn.simulation;
 
-import org.payn.simulation.interfaces.IInputProcessor;
-import org.payn.simulation.interfaces.IMetaInput;
-import org.payn.simulation.interfaces.ISimulator;
-
-
 /**
- * The Input Processor knows how to translate meta inputs into actual model inputs.
- * @author Renee
+ * Input processor for translating meta-input into simulator inputs
+ * 
+ * @author robpayn
  *
  */
+public interface InputProcessor {
 
-public abstract class InputProcessor<MIT extends IMetaInput, ST extends ISimulator> implements IInputProcessor {
+   /**
+    * Execute the input processor
+    * @throws Exception
+    */
+   public void execute() throws Exception;
 
-    
-    protected MIT metaInput;
-    
-    protected ST sim;
-    
-    public InputProcessor(MIT metaInput, ST sim)
-    {
-        this.metaInput = metaInput;
-        this.sim = sim;
-        sim.addInputProc(this); //adding this to simulator. 
-    }
-
-   
-   
-    
-
-    
-    
 }

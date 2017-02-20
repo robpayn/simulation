@@ -1,21 +1,20 @@
 package org.payn.simulation;
 
-import org.payn.simulation.interfaces.IMetaInput;
-
 /**
- * Meta-input is a parameter(s) for which we would like to adjust. 
- * Reads from some file or from i/o.
- * The InputProcesser uses the meta input to process the input into 
- * model input and pass it to the model.
- * @author Renee
+ * Meta input for a an input processor that generates the 
+ * specific input needed for a simulation
+ * 
+ * @author robpayn
  *
  */
-
-public abstract class MetaInput implements IMetaInput {
-
+public interface MetaInput {
    
-    
-
-    
+   /**
+    * Determines if the meta-input is activated
+    * 
+    * @return
+    *       true if active, false otherwise
+    */
+   boolean isActive();
     
 }

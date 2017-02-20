@@ -3,7 +3,6 @@ package org.payn.simulation;
 import java.util.ArrayList;
 
 import org.payn.simulation.interfaces.ISimulationManager;
-import org.payn.simulation.interfaces.ISimulator;
 
 /**
  * Manages the simulations that are necessary to perform a model analysis
@@ -16,14 +15,14 @@ public class SimulationManager implements ISimulationManager {
     /**
      * List of simulators necessary to perform an analysis
      */
-    protected ArrayList<ISimulator> simList;
+    protected ArrayList<Simulator> simList;
     
     /**
      * Construct an instance
      */
     public SimulationManager()
     {
-        simList = new ArrayList<ISimulator>();
+        simList = new ArrayList<Simulator>();
     }
     
     /**
@@ -32,7 +31,7 @@ public class SimulationManager implements ISimulationManager {
      * @param sim
      *      simulator to be added
      */
-    public void addSimulator(ISimulator sim)
+    public void addSimulator(Simulator sim)
     {
         simList.add(sim);
     }
@@ -44,7 +43,7 @@ public class SimulationManager implements ISimulationManager {
      */
     public void execute() throws Exception
     {
-        for (ISimulator sim: simList)
+        for (Simulator sim: simList)
         {
             sim.execute();
         }

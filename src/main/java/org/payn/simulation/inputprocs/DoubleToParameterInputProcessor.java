@@ -1,7 +1,7 @@
 package org.payn.simulation.inputprocs;
 
-import org.payn.simulation.InputProcessor;
-import org.payn.simulation.interfaces.ISimulator;
+import org.payn.simulation.InputProcessorAbstract;
+import org.payn.simulation.Simulator;
 import org.payn.simulation.metainputs.DoubleMetaInput;
 
 /**
@@ -13,8 +13,8 @@ import org.payn.simulation.metainputs.DoubleMetaInput;
  * @param <ST>
  *      The type of the simulator using this input processor
  */
-public abstract class DoubleToParameterInputProcessor<ST extends ISimulator> 
-        extends InputProcessor<DoubleMetaInput, ST> {
+public abstract class DoubleToParameterInputProcessor<ST extends Simulator> 
+        extends InputProcessorAbstract<DoubleMetaInput, ST> {
     
     /**
      * Construct an instance associated with the provided simulator

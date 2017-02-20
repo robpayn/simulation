@@ -3,8 +3,9 @@ package org.payn.simulation.metaoutputs;
 import java.util.ArrayList;
 
 import org.payn.simulation.MetaOutput;
+import org.payn.simulation.MetaOutputAbstract;
 
-public class DoubleMetaOutput extends MetaOutput {
+public class DoubleMetaOutput implements MetaOutput {
 
     private ArrayList<Double> vector;
     

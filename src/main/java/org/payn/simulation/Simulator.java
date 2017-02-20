@@ -1,95 +1,35 @@
 package org.payn.simulation;
 
-import java.util.ArrayList;
-
-import org.payn.simulation.interfaces.IInputProcessor;
-import org.payn.simulation.interfaces.IInputProcessorFactory;
-import org.payn.simulation.interfaces.IOutputProcessor;
-import org.payn.simulation.interfaces.IOutputProcessorFactory;
-import org.payn.simulation.interfaces.ISimulator;
-
 /**
- * Abstract implementation of a simulator
+ * Controls a single simulation based on setting up model input,
+ * executing the model, and interpreting model output
  * 
  * @author robpayn
  *
  */
-public abstract class Simulator implements ISimulator {
-    
+public interface Simulator {
+
     /**
-     * Factory for input processors
-     */
-    protected IInputProcessorFactory inputProcessorFactory;
-    
-    /**
-     * Factory for output processors
-     */
-    protected IOutputProcessorFactory outputProcessorFactory;
-    
-    /**
-     * List of input processors
-     */
-    protected ArrayList<IInputProcessor> inputProcList;
-    
-    /**
-     * List of output processors
-     */
-    protected ArrayList<IOutputProcessor> outputProcList;
-    
-    /**
-     * Construct a new instance with the given input and output processor
-     * factories
+     * Add an input processor to be executed before running the model
      * 
-     * @param inputProcessorFactory
-     *      input processor factory
-     * @param outputProcessorFactory
-     *      output processor factory
+     * @param inputProc
+     *      input processor to be added
      */
-    public Simulator()
-    {
-        this.inputProcessorFactory = createInputProcessorFactory();
-        inputProcessorFactory.setSimulator(this);
-        this.outputProcessorFactory = createOutputProcessorFactory();
-        outputProcessorFactory.setSimulator(this);
-        inputProcList = new ArrayList<IInputProcessor>();
-        outputProcList = new ArrayList<IOutputProcessor>();
-    }
-    
-   /**
-     * Add an input processor
-     */
-    @Override
-    public void addInputProc(IInputProcessor inputProc)
-    {
-        inputProcList.add(inputProc);
-    }
+    public void addInputProc(InputProcessor inputProc);
 
     /**
-     * Add an output processor
+     * Add an output processor to be executed after running the model
+     * 
+     * @param outputProc
+     *      output processor to be added
      */
-    @Override
-    public void addOutputProc(IOutputProcessor outputProc)
-    {
-        outputProcList.add(outputProc);
-    }
+    public void addOutputProc(OutputProcessor outputProc);
 
     /**
-     * Execute the input processors, run the model, and execute the output processors
+     * Execute the simulation
     * @throws Exception 
      */
-    @Override
-    public void execute() throws Exception
-    {
-        for (IInputProcessor inputProc: inputProcList)
-        {
-            inputProc.execute();
-        }
-        runModel();
-        for (IOutputProcessor outputProc: outputProcList)
-        {
-            outputProc.execute();
-        }
-    }
+    public void execute() throws Exception;
 
     /**
      * Getter for the input processor factory
@@ -97,11 +37,7 @@ public abstract class Simulator implements ISimulator {
      * @return
      *      input processor factory
      */
-    @Override
-    public IInputProcessorFactory getInputProcessorFactory()
-    {
-        return inputProcessorFactory;
-    }
+    public abstract InputProcessorFactory getInputProcessorFactory();
 
     /**
      * Getter for the output processor factory
@@ -109,32 +45,6 @@ public abstract class Simulator implements ISimulator {
      * @return
      *      output processor factory
      */
-    @Override
-    public IOutputProcessorFactory getOutputProcessorFactory()
-    {
-        return outputProcessorFactory;
-    }
-    
-    /**
-     * Create the input processor factory
-     * 
-     * @return
-     *      input processor factory
-     */
-    protected abstract IInputProcessorFactory createInputProcessorFactory();
+    public abstract OutputProcessorFactory getOutputProcessorFactory();
 
-    /**
-     * Create the output processor factory
-     * 
-     * @return
-     *      output processor factory
-     */
-    protected abstract IOutputProcessorFactory createOutputProcessorFactory();
-
-    /**
-     * Run the associated model
-    * @throws Exception 
-     */
-    protected abstract void runModel() throws Exception;
-    
 }
