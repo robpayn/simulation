@@ -81,6 +81,8 @@ public abstract class SimulatorAbstract implements Simulator {
         {
             outputProc.execute();
         }
+        System.out.println("");
+        System.out.println("Simulation complete.");
     }
 
     /**

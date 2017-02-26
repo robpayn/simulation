@@ -22,21 +22,21 @@ public abstract class InputProcessorAbstract<MIT extends MetaInput, ST extends S
    /**
     * Simulator
     */
-   protected ST sim;
+   protected ST simulator;
    
    /**
     * Construct an instance with the provided meta-input and simulator
     * 
     * @param metaInput
     *       meta-input for the processor
-    * @param sim
+    * @param simulator
     *       simulator using this processor
     */
-   public InputProcessorAbstract(MIT metaInput, ST sim)
+   public InputProcessorAbstract(MIT metaInput, ST simulator)
    {
       this.metaInput = metaInput;
-      this.sim = sim;
-      sim.addInputProc(this);
+      this.simulator = simulator;
+      simulator.addInputProc(this);
    }
 
    
