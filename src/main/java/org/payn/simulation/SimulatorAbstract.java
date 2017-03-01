@@ -1,6 +1,8 @@
 package org.payn.simulation;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Abstract implementation of a simulator
@@ -29,22 +31,62 @@ public abstract class SimulatorAbstract implements Simulator {
      * List of output processors
      */
     protected ArrayList<OutputProcessor> outputProcList;
+
+    /**
+     * Hashmap of command line arguments
+     */
+    protected HashMap<String, String> argMap;
+
+    /**
+     * Working directory
+     */
+    protected File workingDir;
+    
+    /**
+     * Get the working directory
+     * 
+     * @return
+     *      working directory as a file object
+     */
+    public File getWorkingDir()
+    {
+       return workingDir;
+    }
     
     /**
      * Construct a new instance with the given input and output processor
      * factories
-     * 
+    * @param args
+    *       array of command line arguments 
+    * @param workingDir 
+     *      working director as a File object
      * @param inputProcessorFactory
      *      input processor factory
      * @param outputProcessorFactory
      *      output processor factory
+    * @throws Exception 
      */
-    public SimulatorAbstract()
+    public SimulatorAbstract(String[] args, File workingDir) throws Exception
     {
-        this.inputProcessorFactory = createInputProcessorFactory();
-        this.outputProcessorFactory = createOutputProcessorFactory();
-        inputProcList = new ArrayList<InputProcessor>();
-        outputProcList = new ArrayList<OutputProcessor>();
+       HashMap<String,String> argMap = new HashMap<String,String>();
+       for (int i = 0; i < args.length; i++)
+       {
+          String[] arg = args[i].split("=");
+          if (arg.length != 2)
+          {
+             throw new Exception(String.format(
+                   "'%s' is a malformed command line argument.",
+                   args[i]
+                   ));
+          }
+          argMap.put(arg[0], arg[1]);
+       }
+       this.argMap = argMap;
+       this.workingDir = workingDir;
+       this.inputProcessorFactory = createInputProcessorFactory();
+       this.outputProcessorFactory = createOutputProcessorFactory();
+       inputProcList = new ArrayList<InputProcessor>();
+       outputProcList = new ArrayList<OutputProcessor>();
     }
     
    /**
