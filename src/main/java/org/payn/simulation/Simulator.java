@@ -1,5 +1,7 @@
 package org.payn.simulation;
 
+import java.util.HashMap;
+
 /**
  * Controls a single simulation based on setting up model input,
  * executing the model, and interpreting model output
@@ -9,13 +11,21 @@ package org.payn.simulation;
  */
 public interface Simulator {
 
-    /**
+   /**
+    * Get the argument map
+    * 
+    * @return
+    *      argument map
+    */
+   HashMap<String, String> getArgMap();
+
+   /**
      * Add an input processor to be executed before running the model
      * 
      * @param inputProc
      *      input processor to be added
      */
-    public void addInputProc(InputProcessor inputProc);
+   void addInputProc(InputProcessor inputProc);
 
     /**
      * Add an output processor to be executed after running the model

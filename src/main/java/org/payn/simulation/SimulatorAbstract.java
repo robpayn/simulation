@@ -37,6 +37,12 @@ public abstract class SimulatorAbstract implements Simulator {
      */
     protected HashMap<String, String> argMap;
 
+    @Override
+    public HashMap<String, String> getArgMap() 
+    {
+       return argMap;
+    }
+
     /**
      * Working directory
      */
