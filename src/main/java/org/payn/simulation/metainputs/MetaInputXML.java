@@ -2,8 +2,8 @@ package org.payn.simulation.metainputs;
 
 import java.io.File;
 
-import org.payn.chsm.io.xml.ElementHelper;
-import org.payn.chsm.io.xml.XMLDocument;
+import org.payn.chsm.io.xmltools.ElementHelper;
+import org.payn.chsm.io.xmltools.XMLDocument;
 
 /**
  * Meta-input contained in an XML file
