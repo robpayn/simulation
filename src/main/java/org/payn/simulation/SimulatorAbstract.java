@@ -72,7 +72,7 @@ public abstract class SimulatorAbstract implements Simulator {
      *      output processor factory
     * @throws Exception 
      */
-    public SimulatorAbstract(String[] args, File workingDir) throws Exception
+    public SimulatorAbstract(File workingDir, String[] args) throws Exception
     {
        HashMap<String,String> argMap = new HashMap<String,String>();
        for (int i = 0; i < args.length; i++)
