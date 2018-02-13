@@ -2,11 +2,14 @@ package org.payn.simulation.neoch;
 
 import java.io.File;
 
+import org.payn.chsm.io.ModelBuilderXML;
+import org.payn.chsm.io.ModelLoaderXML;
 import org.payn.chsm.io.xmltools.ElementBehavior;
 import org.payn.chsm.resources.Behavior;
 import org.payn.chsm.resources.Resource;
 import org.payn.chsm.resources.time.BehaviorTime;
 import org.payn.chsm.resources.time.ResourceTime;
+import org.payn.neoch.HolonMatrix;
 import org.payn.neoch.io.xmltools.DocumentHolonMatrix;
 import org.payn.simulation.InputProcessorAbstract;
 
@@ -49,7 +52,7 @@ public abstract class InputProcessorXMLNEOCHBuilder<MIT extends MetaInputXMLNEOC
       }
       else
       {
-         System.out.println("Building the NEOCH files...");
+         System.out.println("Building the NEOCH XML files...");
 
          File holonFile = metaInput.getHolonFile();
          documentHolon = new DocumentHolonMatrix(holonFile.getName());
@@ -77,10 +80,23 @@ public abstract class InputProcessorXMLNEOCHBuilder<MIT extends MetaInputXMLNEOC
          configureModel();
          
          // Write the model input files
-         holonFile.getParentFile().mkdirs();
-         documentHolon.write(holonFile.getParentFile());
+         if (metaInput.isMatrixFileWritten())
+         {
+            holonFile.getParentFile().mkdirs();
+            documentHolon.write(holonFile.getParentFile());
+         }
       }
-      simulator.initializeModel();
+      ModelLoaderXML loader = (ModelLoaderXML)simulator.getLoader();
+      ModelBuilderXML builder = (ModelBuilderXML)loader.load(
+            simulator.getWorkingDir(), 
+            simulator.getArgMap(), 
+            metaInput.getDocument()
+            );
+      HolonMatrix matrix = (HolonMatrix)builder.buildModel(
+            metaInput.getDocument(), 
+            documentHolon
+            );
+      simulator.initializeModel(matrix);
    }
 
    /**

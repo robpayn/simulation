@@ -2,7 +2,6 @@ package org.payn.simulation.neoch;
 
 import java.io.File;
 
-import org.payn.chsm.io.ModelBuilder;
 import org.payn.chsm.io.ModelLoader;
 import org.payn.neoch.HolonMatrix;
 import org.payn.simulation.SimulatorAbstract;
@@ -26,6 +25,17 @@ public abstract class SimulatorNEOCH extends SimulatorAbstract {
    protected ModelLoader loader;
 
    /**
+    * Get the model loader
+    * 
+    * @return
+    *       model loader
+    */
+   public ModelLoader getLoader()
+   {
+      return loader;
+   }
+
+   /**
     * Constructor 
     * 
     * @param args
@@ -40,17 +50,19 @@ public abstract class SimulatorNEOCH extends SimulatorAbstract {
    }
 
    /**
-    * Initialize the model
+    * Initialize the model based on the provided matrix
     * 
+    * @param matrix
+    *       matrix for the model
     * @throws Exception
+    *       if error in initializing the controller for the matrix
     */
-   public void initializeModel() throws Exception
+   public void initializeModel(HolonMatrix matrix) throws Exception
    {
-      ModelBuilder builder = loader.load(workingDir, argMap);
-      matrix = (HolonMatrix)builder.buildModel();
-      matrix.getProcessor().initializeController();
+      this.matrix = matrix;
+      matrix.getController().initializeController();
    }
-
+   
    @Override
    protected void runModel() throws Exception 
    {
