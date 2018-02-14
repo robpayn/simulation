@@ -20,6 +20,12 @@ public abstract class MetaInputXML<DT extends XMLDocument> extends MetaInputFile
     */
    protected DT document;
    
+   /**
+    * Get the document representing metainput
+    * 
+    * @return
+    *       document
+    */
    public DT getDocument()
    {
       return document;

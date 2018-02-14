@@ -2,6 +2,7 @@ package org.payn.simulation.neoch;
 
 import java.io.File;
 
+import org.payn.chsm.io.ModelBuilder;
 import org.payn.chsm.io.ModelBuilderXML;
 import org.payn.chsm.io.ModelLoaderXML;
 import org.payn.chsm.io.xmltools.ElementBehavior;
@@ -46,9 +47,16 @@ public abstract class InputProcessorXMLNEOCHBuilder<MIT extends MetaInputXMLNEOC
    @Override
    public void execute() throws Exception 
    {
-      if (!metaInput.isActive())
+      ModelLoaderXML loader = (ModelLoaderXML)simulator.getLoader();
+      HolonMatrix matrix = null;
+      if (!metaInput.isBuildActive())
       {
-         System.out.println("Builder is inactive, attempting to run existing model...");
+         System.out.println("Input processor is inactive, attempting to run existing model...");
+         ModelBuilder builder = loader.load(
+               simulator.getWorkingDir(), 
+               simulator.getArgMap()
+               );
+         matrix = (HolonMatrix)builder.buildModel();
       }
       else
       {
@@ -85,17 +93,16 @@ public abstract class InputProcessorXMLNEOCHBuilder<MIT extends MetaInputXMLNEOC
             holonFile.getParentFile().mkdirs();
             documentHolon.write(holonFile.getParentFile());
          }
+         ModelBuilderXML builder = (ModelBuilderXML)loader.load(
+               simulator.getWorkingDir(), 
+               simulator.getArgMap(), 
+               metaInput.getDocument()
+               );
+         matrix = (HolonMatrix)builder.buildModel(
+               metaInput.getDocument(), 
+               documentHolon
+               );
       }
-      ModelLoaderXML loader = (ModelLoaderXML)simulator.getLoader();
-      ModelBuilderXML builder = (ModelBuilderXML)loader.load(
-            simulator.getWorkingDir(), 
-            simulator.getArgMap(), 
-            metaInput.getDocument()
-            );
-      HolonMatrix matrix = (HolonMatrix)builder.buildModel(
-            metaInput.getDocument(), 
-            documentHolon
-            );
       simulator.initializeModel(matrix);
    }
 

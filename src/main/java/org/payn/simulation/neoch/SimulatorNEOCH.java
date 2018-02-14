@@ -40,6 +40,7 @@ public abstract class SimulatorNEOCH extends SimulatorAbstract {
     * 
     * @param args
     * @param workingDir
+    * @param loader 
     * @throws Exception
     */
    public SimulatorNEOCH(File workingDir, String[] args, ModelLoader loader) 

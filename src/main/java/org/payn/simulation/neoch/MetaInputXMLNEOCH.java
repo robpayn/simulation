@@ -2,7 +2,6 @@ package org.payn.simulation.neoch;
 
 import java.io.File;
 
-import org.payn.chsm.io.xmltools.ElementHelper;
 import org.payn.chsm.io.xmltools.DocumentModelConfig;
 import org.payn.neoch.io.xmltools.ElementXMLInputMatrix;
 import org.payn.simulation.metainputs.MetaInputXML;
@@ -20,16 +19,6 @@ public abstract class MetaInputXMLNEOCH extends MetaInputXML<DocumentModelConfig
     */
    private ElementXMLInputMatrix xmlInputElement;
    
-   /**
-    * Time element with information about simulation time
-    */
-   private ElementHelper timeElement;
-
-   /**
-    * Element with information about model control
-    */
-   private ElementHelper controlElement;
-
    /**
     * Construct a new instance that uses the provided working directory,
     * path to the configuration file, and the name of the XML element
@@ -59,6 +48,28 @@ public abstract class MetaInputXMLNEOCH extends MetaInputXML<DocumentModelConfig
    }
 
    /**
+    * Is the flag for building the model active?
+    * 
+    * @return
+    *       true if model should be built, false otherwise
+    */
+   public Boolean isBuildActive()
+   {
+      return helper.getAttributeBoolean("build");
+   }
+   
+   /**
+    * Is the flag set for writing the matrix file?
+    * 
+    * @return
+    *       true if matrix file should be written
+    */
+   public Boolean isMatrixFileWritten()
+   {
+      return helper.getAttributeBoolean("writeMatrixFile");
+   }
+
+   /**
     * Get the holon file from the NEOCH settings
     * 
     * @return
@@ -78,7 +89,7 @@ public abstract class MetaInputXMLNEOCH extends MetaInputXML<DocumentModelConfig
     */
    public Double getAttributeTimeInterval()
    {
-      return getTimeElement().getAttributeDouble("timeInterval");
+      return helper.getAttributeDouble("timeInterval");
    }
    
    /**
@@ -89,46 +100,7 @@ public abstract class MetaInputXMLNEOCH extends MetaInputXML<DocumentModelConfig
     */
    public Long getAttributeLastIteration()
    {
-      return getTimeElement().getAttributeLong("lastIteration");
-   }
-
-   /**
-    * Get the time XML element
-    * 
-    * @return
-    *       time element
-    */
-   public ElementHelper getTimeElement()
-   {
-      if (timeElement == null)
-      {
-         timeElement = new ElementHelper(
-               document.getRootElementHelper().getFirstChildElement("time")
-               );
-      }
-      return timeElement;
-   }
-   
-   public ElementHelper getControlElement()
-   {
-      if (controlElement == null)
-      {
-         controlElement = new ElementHelper(
-               document.getRootElementHelper().getFirstChildElement("control")
-               );
-      }
-      return controlElement;
-   }
-   
-   /**
-    * Is the flag set for writing the matrix file?
-    * 
-    * @return
-    *       true if matrix file should be written
-    */
-   public Boolean isMatrixFileWritten()
-   {
-      return getControlElement().getAttributeBoolean("writeMatrixFile");
+      return helper.getAttributeLong("lastIteration");
    }
 
 }
