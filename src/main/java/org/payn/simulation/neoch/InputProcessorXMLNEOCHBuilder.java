@@ -8,7 +8,7 @@ import org.payn.chsm.io.ModelLoaderXML;
 import org.payn.chsm.io.xmltools.ElementBehavior;
 import org.payn.chsm.resources.Behavior;
 import org.payn.chsm.resources.Resource;
-import org.payn.chsm.resources.time.BehaviorTime;
+import org.payn.chsm.resources.time.BehaviorTimeStepper;
 import org.payn.chsm.resources.time.ResourceTime;
 import org.payn.neoch.HolonMatrix;
 import org.payn.neoch.io.xmltools.DocumentHolonMatrix;
@@ -73,12 +73,12 @@ public abstract class InputProcessorXMLNEOCHBuilder<MIT extends MetaInputXMLNEOC
          ElementBehavior elementTime =
                documentHolon.getRootHolonElement().createBehaviorElement(behaviorTime);
          elementTime.createInitValueElement(
-               BehaviorTime.ITERATION_INTERVAL,
+               BehaviorTimeStepper.ITERATION_INTERVAL,
                metaInput.getAttributeTimeInterval().toString(), 
                null
                );
          elementTime.createInitValueElement(
-               BehaviorTime.LAST_ITERATION,
+               BehaviorTimeStepper.LAST_ITERATION,
                metaInput.getAttributeLastIteration().toString(), 
                null
                );
