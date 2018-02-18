@@ -28,9 +28,19 @@ public abstract class SimulatorAbstract implements Simulator {
     protected ArrayList<InputProcessor> inputProcList;
     
     /**
+     * List of iteration input processors
+     */
+    protected ArrayList<InputProcessor> iterInputProcList;
+
+    /**
      * List of output processors
      */
     protected ArrayList<OutputProcessor> outputProcList;
+
+    /**
+     * List of iteration output processors
+     */
+    protected ArrayList<OutputProcessor> iterOutputProcList;
 
     /**
      * Hashmap of command line arguments
@@ -57,6 +67,18 @@ public abstract class SimulatorAbstract implements Simulator {
     public File getWorkingDir()
     {
        return workingDir;
+    }
+    
+    protected boolean isIteration = false;
+    
+    protected void setIteration(boolean isIteration)
+    {
+       this.isIteration = isIteration;
+    }
+    
+    protected boolean isIteration()
+    {
+       return isIteration;
     }
     
     /**
@@ -99,7 +121,7 @@ public abstract class SimulatorAbstract implements Simulator {
      * Add an input processor
      */
     @Override
-    public void addInputProc(InputProcessor inputProc)
+    public void addInputProcess(InputProcessor inputProc)
     {
         inputProcList.add(inputProc);
     }
@@ -108,7 +130,7 @@ public abstract class SimulatorAbstract implements Simulator {
      * Add an output processor
      */
     @Override
-    public void addOutputProc(OutputProcessor outputProc)
+    public void addOutputProcess(OutputProcessor outputProc)
     {
         outputProcList.add(outputProc);
     }
@@ -122,12 +144,30 @@ public abstract class SimulatorAbstract implements Simulator {
     {
         for (InputProcessor inputProc: inputProcList)
         {
-            inputProc.execute();
+            inputProc.processInput();
         }
-        runModel();
+        if (isIteration)
+        {
+           while(isIteration)
+           {
+              for (InputProcessor iterInputProc: iterInputProcList)
+              {
+                 iterInputProc.processInput();
+              }
+              runModel();
+              for (OutputProcessor iterOutputProc: iterOutputProcList)
+              {
+                 iterOutputProc.processOutput();
+              }
+           }
+        }
+        else
+        {
+           runModel();
+        }
         for (OutputProcessor outputProc: outputProcList)
         {
-            outputProc.execute();
+            outputProc.processOutput();
         }
         System.out.println("");
         System.out.println("Simulation complete.");

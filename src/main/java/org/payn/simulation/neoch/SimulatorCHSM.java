@@ -1,9 +1,11 @@
 package org.payn.simulation.neoch;
 
 import java.io.File;
+import java.util.LinkedHashMap;
 
+import org.payn.chsm.HolonStateValue;
 import org.payn.chsm.io.ModelLoader;
-import org.payn.neoch.HolonMatrix;
+import org.payn.chsm.io.reporters.Reporter;
 import org.payn.simulation.SimulatorAbstract;
 
 /**
@@ -12,12 +14,12 @@ import org.payn.simulation.SimulatorAbstract;
  * @author robpayn
  *
  */
-public abstract class SimulatorNEOCH extends SimulatorAbstract {
+public abstract class SimulatorCHSM extends SimulatorAbstract {
    
    /**
     * NEOCH model matrix
     */
-   protected HolonMatrix matrix;
+   protected HolonStateValue model;
    
    /**
     * The model loader
@@ -36,6 +38,22 @@ public abstract class SimulatorNEOCH extends SimulatorAbstract {
    }
 
    /**
+    * The reporters from the model
+    */
+   private LinkedHashMap<String, Reporter> reporters;
+   
+   /**
+    * Getter
+    * 
+    * @return
+    *       model reporters
+    */
+   public LinkedHashMap<String, Reporter> getReporters()
+   {
+      return reporters;
+   }
+
+   /**
     * Constructor 
     * 
     * @param args
@@ -43,7 +61,7 @@ public abstract class SimulatorNEOCH extends SimulatorAbstract {
     * @param loader 
     * @throws Exception
     */
-   public SimulatorNEOCH(File workingDir, String[] args, ModelLoader loader) 
+   public SimulatorCHSM(File workingDir, String[] args, ModelLoader loader) 
          throws Exception 
    {
       super(workingDir, args);
@@ -53,21 +71,22 @@ public abstract class SimulatorNEOCH extends SimulatorAbstract {
    /**
     * Initialize the model based on the provided matrix
     * 
-    * @param matrix
+    * @param model
     *       matrix for the model
     * @throws Exception
     *       if error in initializing the controller for the matrix
     */
-   public void initializeModel(HolonMatrix matrix) throws Exception
+   public void initializeModel(HolonStateValue model) throws Exception
    {
-      this.matrix = matrix;
-      matrix.getController().initializeController();
+      this.model = model;
+      model.getProcessor().initializeController();
    }
    
    @Override
    protected void runModel() throws Exception 
    {
-      matrix.getController().executeController();
+      model.getProcessor().executeController();
+      reporters = model.getProcessor().getReporters();
    }
    
 }

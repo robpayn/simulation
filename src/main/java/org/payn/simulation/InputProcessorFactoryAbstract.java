@@ -1,5 +1,7 @@
 package org.payn.simulation;
 
+import org.payn.simulation.iteration.BayesAMMCMCMetaInput;
+
 /**
  * Abstract definition of the input processor factory
  * 
@@ -45,4 +47,9 @@ public abstract class InputProcessorFactoryAbstract implements InputProcessorFac
        return simulator;
     }
     
+    public void addBayesAMMCMC(BayesAMMCMCMetaInput metaInput) throws Exception 
+    {
+       
+    }
+
 }

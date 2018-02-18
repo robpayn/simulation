@@ -12,6 +12,6 @@ public interface InputProcessor {
     * Execute the input processor
     * @throws Exception
     */
-   public void execute() throws Exception;
+   public void processInput() throws Exception;
 
 }

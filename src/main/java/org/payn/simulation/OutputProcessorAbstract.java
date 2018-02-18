@@ -18,7 +18,7 @@ public abstract class OutputProcessorAbstract<MOT extends MetaOutput, ST extends
     {
         this.metaOutput = metaOutput;
         this.sim = sim;
-        sim.addOutputProc(this);
+        sim.addOutputProcess(this);
     }
 
 }

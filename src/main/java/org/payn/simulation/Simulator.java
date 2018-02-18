@@ -25,7 +25,7 @@ public interface Simulator {
      * @param inputProc
      *      input processor to be added
      */
-   void addInputProc(InputProcessor inputProc);
+   void addInputProcess(InputProcessor inputProc);
 
     /**
      * Add an output processor to be executed after running the model
@@ -33,21 +33,22 @@ public interface Simulator {
      * @param outputProc
      *      output processor to be added
      */
-    public void addOutputProc(OutputProcessor outputProc);
+   void addOutputProcess(OutputProcessor outputProc);
 
-    /**
-     * Execute the simulation
+   /**
+    * Execute the simulation
+    * 
     * @throws Exception 
-     */
-    public void execute() throws Exception;
+    */
+   void execute() throws Exception;
 
-    /**
-     * Getter for the input processor factory
-     * 
-     * @return
-     *      input processor factory
-     */
-    public abstract InputProcessorFactory getInputProcessorFactory();
+   /**
+    * Getter for the input processor factory
+    * 
+    * @return
+    *      input processor factory
+    */
+   public abstract InputProcessorFactory getInputProcessorFactory();
 
     /**
      * Getter for the output processor factory

@@ -36,13 +36,7 @@ public abstract class InputProcessorAbstract<MIT extends MetaInput, ST extends S
    {
       this.metaInput = metaInput;
       this.simulator = simulator;
-      simulator.addInputProc(this);
+      simulator.addInputProcess(this);
    }
-
-   
-   
-    
-
-    
     
 }

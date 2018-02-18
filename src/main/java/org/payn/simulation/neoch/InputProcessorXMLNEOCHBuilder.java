@@ -25,7 +25,7 @@ import org.payn.simulation.InputProcessorAbstract;
  * @param <ST> 
  *      simulator type
  */
-public abstract class InputProcessorXMLNEOCHBuilder<MIT extends MetaInputXMLNEOCH, ST extends SimulatorNEOCH> 
+public abstract class InputProcessorXMLNEOCHBuilder<MIT extends MetaInputXMLNEOCH, ST extends SimulatorCHSM> 
       extends InputProcessorAbstract<MIT, ST> {
 
    /**
@@ -45,7 +45,7 @@ public abstract class InputProcessorXMLNEOCHBuilder<MIT extends MetaInputXMLNEOC
    }
 
    @Override
-   public void execute() throws Exception 
+   public void processInput() throws Exception 
    {
       ModelLoaderXML loader = (ModelLoaderXML)simulator.getLoader();
       HolonMatrix matrix = null;
@@ -85,6 +85,8 @@ public abstract class InputProcessorXMLNEOCHBuilder<MIT extends MetaInputXMLNEOC
          
          configureResources();
          
+         System.out.println("Building the matrix from the metainput...");
+
          configureModel();
          
          // Write the model input files
@@ -104,6 +106,8 @@ public abstract class InputProcessorXMLNEOCHBuilder<MIT extends MetaInputXMLNEOC
                );
       }
       simulator.initializeModel(matrix);
+      
+      // Add Bayes options here
    }
 
    /**
