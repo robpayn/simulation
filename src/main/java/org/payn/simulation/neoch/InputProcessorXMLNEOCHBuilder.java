@@ -6,6 +6,7 @@ import org.payn.chsm.io.ModelBuilder;
 import org.payn.chsm.io.ModelBuilderXML;
 import org.payn.chsm.io.ModelLoaderXML;
 import org.payn.chsm.io.xmltools.ElementBehavior;
+import org.payn.chsm.io.xmltools.ElementHelperLoader;
 import org.payn.chsm.resources.Behavior;
 import org.payn.chsm.resources.Resource;
 import org.payn.chsm.resources.time.BehaviorTimeStepper;
@@ -47,67 +48,77 @@ public abstract class InputProcessorXMLNEOCHBuilder<MIT extends MetaInputXMLNEOC
    @Override
    public void processInput() throws Exception 
    {
-      ModelLoaderXML loader = (ModelLoaderXML)simulator.getLoader();
-      HolonMatrix matrix = null;
-      if (!metaInput.isBuildActive())
+      ElementHelperLoader iterationElement = metaInput.getElementIteration();
+      if (iterationElement != null)
       {
-         System.out.println("Input processor is inactive, attempting to run existing model...");
-         ModelBuilder builder = loader.load(
-               simulator.getWorkingDir(), 
-               simulator.getArgMap()
-               );
-         matrix = (HolonMatrix)builder.buildModel();
+         if (iterationElement.getType().equals("BayesAMMCMC"))
+         {
+            
+         }
       }
       else
       {
-         System.out.println("Building the NEOCH XML files...");
-
-         File holonFile = metaInput.getHolonFile();
-         documentHolon = new DocumentHolonMatrix(holonFile.getName());
-         
-         Resource resourceTime = new ResourceTime();
-         resourceTime.initialize("time");
-         Behavior behaviorTime = resourceTime.getBehavior(
-               ResourceTime.BEHAVIOR_TIME
-               );
-         ElementBehavior elementTime =
-               documentHolon.getRootHolonElement().createBehaviorElement(behaviorTime);
-         elementTime.createInitValueElement(
-               BehaviorTimeStepper.ITERATION_INTERVAL,
-               metaInput.getAttributeTimeInterval().toString(), 
-               null
-               );
-         elementTime.createInitValueElement(
-               BehaviorTimeStepper.LAST_ITERATION,
-               metaInput.getAttributeLastIteration().toString(), 
-               null
-               );
-         
-         configureResources();
-         
-         System.out.println("Building the matrix from the metainput...");
-
-         configureModel();
-         
-         // Write the model input files
-         if (metaInput.isMatrixFileWritten())
+         ModelLoaderXML loader = (ModelLoaderXML)simulator.getLoader();
+         HolonMatrix matrix = null;
+         if (!metaInput.isBuildActive())
          {
-            holonFile.getParentFile().mkdirs();
-            documentHolon.write(holonFile.getParentFile());
+            System.out.println("Input processor is inactive, attempting to run existing model...");
+            ModelBuilder builder = loader.load(
+                  simulator.getWorkingDir(), 
+                  simulator.getArgMap()
+                  );
+            matrix = (HolonMatrix)builder.buildModel();
          }
-         ModelBuilderXML builder = (ModelBuilderXML)loader.load(
-               simulator.getWorkingDir(), 
-               simulator.getArgMap(), 
-               metaInput.getDocument()
-               );
-         matrix = (HolonMatrix)builder.buildModel(
-               metaInput.getDocument(), 
-               documentHolon
-               );
+         else
+         {
+            System.out.println("Building the NEOCH XML files...");
+   
+            File holonFile = metaInput.getHolonFile();
+            documentHolon = new DocumentHolonMatrix(holonFile.getName());
+            
+            Resource resourceTime = new ResourceTime();
+            resourceTime.initialize("time");
+            Behavior behaviorTime = resourceTime.getBehavior(
+                  ResourceTime.BEHAVIOR_TIME
+                  );
+            ElementBehavior elementTime =
+                  documentHolon.getRootHolonElement().createBehaviorElement(behaviorTime);
+            elementTime.createInitValueElement(
+                  BehaviorTimeStepper.ITERATION_INTERVAL,
+                  metaInput.getAttributeTimeInterval().toString(), 
+                  null
+                  );
+            elementTime.createInitValueElement(
+                  BehaviorTimeStepper.LAST_ITERATION,
+                  metaInput.getAttributeLastIteration().toString(), 
+                  null
+                  );
+            
+            configureResources();
+            
+            System.out.println("Building the matrix from the metainput...");
+   
+            configureModel();
+            
+            // Write the model input files
+            if (metaInput.isMatrixFileWritten())
+            {
+               holonFile.getParentFile().mkdirs();
+               documentHolon.write(holonFile.getParentFile());
+            }
+            ModelBuilderXML builder = (ModelBuilderXML)loader.load(
+                  simulator.getWorkingDir(), 
+                  simulator.getArgMap(), 
+                  metaInput.getDocument()
+                  );
+            matrix = (HolonMatrix)builder.buildModel(
+                  metaInput.getDocument(), 
+                  documentHolon
+                  );
+         }
+         simulator.initializeModel(matrix);
       }
-      simulator.initializeModel(matrix);
-      
-      // Add Bayes options here
+
    }
 
    /**

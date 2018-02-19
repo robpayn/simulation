@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.payn.chsm.io.xmltools.DocumentModelConfig;
 import org.payn.chsm.io.xmltools.ElementHelper;
+import org.payn.chsm.io.xmltools.ElementHelperLoader;
 import org.payn.neoch.io.xmltools.ElementXMLInputMatrix;
 import org.payn.simulation.metainputs.MetaInputXML;
 
@@ -24,6 +25,11 @@ public abstract class MetaInputXMLNEOCH extends MetaInputXML<DocumentModelConfig
     * Element for the time controls of the model
     */
    private ElementHelper elementTime;
+
+   /**
+    * Element for the iteration controls
+    */
+   private ElementHelperLoader elementIteration;
    
    /**
     * Construct a new instance that uses the provided working directory,
@@ -122,6 +128,22 @@ public abstract class MetaInputXMLNEOCH extends MetaInputXML<DocumentModelConfig
          elementTime = helper.getFirstChildElementHelper("time");
       }
       return elementTime;
+   }
+   
+   /**
+    * Get the iteration element
+    * 
+    * @return
+    *       iteration element helper
+    */
+   public ElementHelperLoader getElementIteration()
+   {
+      if (elementIteration == null)
+      {
+         elementIteration = new ElementHelperLoader(
+               helper.getFirstChildElement("iteration"));
+      }
+      return elementIteration;
    }
 
 }
