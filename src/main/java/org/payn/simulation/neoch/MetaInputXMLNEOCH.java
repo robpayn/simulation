@@ -80,6 +80,19 @@ public abstract class MetaInputXMLNEOCH extends MetaInputXML<DocumentModelConfig
    {
       return helper.getAttributeBoolean("writeMatrixFile");
    }
+   
+   public Boolean isIterationActive()
+   {
+      ElementHelper element = helper.getFirstChildElementHelper("iteration");
+      if (element.getElement() != null && element.isActive())
+      {
+         return true;
+      }
+      else
+      {
+         return false;
+      }
+   }
 
    /**
     * Get the holon file from the NEOCH settings

@@ -49,12 +49,13 @@ public abstract class InputProcessorXMLNEOCHBuilder<MIT extends MetaInputXMLNEOC
    public void processInput() throws Exception 
    {
       ElementHelperLoader iterationElement = metaInput.getElementIteration();
-      if (iterationElement != null)
+      if (iterationElement != null && iterationElement.isActive())
       {
-         if (iterationElement.getType().equals("BayesAMMCMC"))
-         {
-            
-         }
+         System.out.println(String.format(
+               "Iteration is active: creating the %s type input processor",
+               iterationElement.getType()
+               ));
+         metaInput.createInputProcessor(simulator, iterationElement);
       }
       else
       {

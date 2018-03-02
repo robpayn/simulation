@@ -27,15 +27,33 @@ public interface Simulator {
      */
    void addInputProcess(InputProcessor inputProc);
 
-    /**
-     * Add an output processor to be executed after running the model
-     * 
-     * @param outputProc
-     *      output processor to be added
-     */
+   /**
+    * Add an iteration input processor to be executed before 
+    * running at iteration of the model
+    * 
+    * @param inputProc
+    *      input processor to be added
+    */
+   void addIterInputProcess(InputProcessor inputProc);
+
+   /**
+    * Add an output processor to be executed after running the model
+    * 
+    * @param outputProc
+    *      output processor to be added
+    */
    void addOutputProcess(OutputProcessor outputProc);
 
    /**
+    * Add an iteration output processor to be executed after running 
+    * at iteration of the model
+    * 
+    * @param outputProc
+    *      output processor to be added
+    */
+   void addIterOutputProcess(OutputProcessor outputProc);
+
+    /**
     * Execute the simulation
     * 
     * @throws Exception 

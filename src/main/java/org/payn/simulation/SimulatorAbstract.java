@@ -126,17 +126,27 @@ public abstract class SimulatorAbstract implements Simulator {
         inputProcList.add(inputProc);
     }
 
-    /**
-     * Add an output processor
-     */
+    @Override
+    public void addIterInputProcess(InputProcessor inputProc)
+    {
+        iterInputProcList.add(inputProc);
+    }
+
     @Override
     public void addOutputProcess(OutputProcessor outputProc)
     {
         outputProcList.add(outputProc);
     }
 
+    @Override
+    public void addIterOutputProcess(OutputProcessor outputProc)
+    {
+        iterOutputProcList.add(outputProc);
+    }
+
     /**
      * Execute the input processors, run the model, and execute the output processors
+     * 
     * @throws Exception 
      */
     @Override
